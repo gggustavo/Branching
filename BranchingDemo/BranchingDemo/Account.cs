@@ -9,13 +9,17 @@ namespace BranchingDemo
         public bool IsClosed { get; set; }
         //public bool IsFrozen { get; set; }
 
-        private Action OnUnfreeze { get; }
-        private Action ManageUnfreezing { get; set; }
+        //private Action OnUnfreeze { get; }
+        //private Action ManageUnfreezing { get; set; }
+
+        private IFreezable Freezable { get; set; }
 
         public Account(Action onUnfreeze)
         {
-            OnUnfreeze = onUnfreeze;
-            ManageUnfreezing = StayUnfrozen;
+            Freezable = new Active(onUnfreeze);
+
+            //OnUnfreeze = onUnfreeze;
+            //ManageUnfreezing = StayUnfrozen;
 
             //ManageUnfreezing = () =>
             //{
@@ -35,7 +39,10 @@ namespace BranchingDemo
             if (IsClosed)
                 return;
 
-            ManageUnfreezing();
+            //ManageUnfreezing();
+
+            Freezable = Freezable.Deposit();
+
             Balance += amount;//Deposit money.
         }
 
@@ -51,10 +58,10 @@ namespace BranchingDemo
         //    }
         //}
 
-        private void StayUnfrozen()
-        {
-            throw new NotImplementedException();
-        }
+        //private void StayUnfrozen()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void Withdraw(decimal amount)
         {
@@ -64,7 +71,8 @@ namespace BranchingDemo
             if (IsClosed)
                 return; //// Or do something else...
 
-            ManageUnfreezing();
+            //ManageUnfreezing();
+            Freezable = Freezable.Withdraw();
 
             Balance -= amount; //Withdraw money.
         }
@@ -88,14 +96,16 @@ namespace BranchingDemo
                 return; // Account must be verified
 
             //IsFrozen = true;
-            ManageUnfreezing = Unfreeze;
+            //ManageUnfreezing = Unfreeze;
+
+            Freezable = Freezable.Freeze();
         }
 
-        private void Unfreeze()
-        {
-            OnUnfreeze();
-            ManageUnfreezing = StayUnfrozen;
-        }
+        //private void Unfreeze()
+        //{
+        //    OnUnfreeze();
+        //    ManageUnfreezing = StayUnfrozen;
+        //}
 
     }
 }
