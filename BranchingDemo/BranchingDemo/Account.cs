@@ -7,13 +7,27 @@ namespace BranchingDemo
         public decimal Balance { get; private set; }
         public bool IsVerified { get; set; }
         public bool IsClosed { get; set; }
-        public bool IsFrozen { get; set; }
+        //public bool IsFrozen { get; set; }
 
         private Action OnUnfreeze { get; }
+        private Action ManageUnfreezing { get; set; }
 
         public Account(Action onUnfreeze)
         {
             OnUnfreeze = onUnfreeze;
+            ManageUnfreezing = StayUnfrozen;
+
+            //ManageUnfreezing = () =>
+            //{
+            //    if (IsFrozen)
+            //    {
+            //        OnUnfreeze();
+            //    }
+            //    else
+            //    {
+            //        StayUnfrozen();
+            //    }
+            //};
         }
 
         public void Deposit(decimal amount)
@@ -21,12 +35,25 @@ namespace BranchingDemo
             if (IsClosed)
                 return;
 
-            if (IsFrozen)
-            {
-                IsFrozen = false;
-                OnUnfreeze();
-            }
+            ManageUnfreezing();
             Balance += amount;//Deposit money.
+        }
+
+        //private void ManageUnfreezing()
+        //{
+        //    if (IsFrozen)
+        //    {
+        //        OnUnfreeze();
+        //    }
+        //    else
+        //    {
+        //        StayUnfrozen();
+        //    }
+        //}
+
+        private void StayUnfrozen()
+        {
+            throw new NotImplementedException();
         }
 
         public void Withdraw(decimal amount)
@@ -37,11 +64,7 @@ namespace BranchingDemo
             if (IsClosed)
                 return; //// Or do something else...
 
-            if (IsFrozen)
-            {
-                IsFrozen = false;
-                OnUnfreeze();
-            }
+            ManageUnfreezing();
 
             Balance -= amount; //Withdraw money.
         }
@@ -64,8 +87,15 @@ namespace BranchingDemo
             if (!IsVerified)
                 return; // Account must be verified
 
-            IsFrozen = true;
+            //IsFrozen = true;
+            ManageUnfreezing = Unfreeze;
         }
-        
+
+        private void Unfreeze()
+        {
+            OnUnfreeze();
+            ManageUnfreezing = StayUnfrozen;
+        }
+
     }
 }
