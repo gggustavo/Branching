@@ -5,107 +5,38 @@ namespace BranchingDemo
     internal class Account
     {
         public decimal Balance { get; private set; }
-        public bool IsVerified { get; set; }
-        public bool IsClosed { get; set; }
-        //public bool IsFrozen { get; set; }
 
-        //private Action OnUnfreeze { get; }
-        //private Action ManageUnfreezing { get; set; }
-
-        private IFreezable Freezable { get; set; }
+        private IAccountState State { get; set; }
 
         public Account(Action onUnfreeze)
         {
-            Freezable = new Active(onUnfreeze);
-
-            //OnUnfreeze = onUnfreeze;
-            //ManageUnfreezing = StayUnfrozen;
-
-            //ManageUnfreezing = () =>
-            //{
-            //    if (IsFrozen)
-            //    {
-            //        OnUnfreeze();
-            //    }
-            //    else
-            //    {
-            //        StayUnfrozen();
-            //    }
-            //};
+            State = new NotVerified(onUnfreeze);
         }
 
         public void Deposit(decimal amount)
         {
-            if (IsClosed)
-                return;
-
-            //ManageUnfreezing();
-
-            Freezable = Freezable.Deposit();
-
-            Balance += amount;//Deposit money.
+            State = State.Deposit(() => { Balance += amount; });
         }
-
-        //private void ManageUnfreezing()
-        //{
-        //    if (IsFrozen)
-        //    {
-        //        OnUnfreeze();
-        //    }
-        //    else
-        //    {
-        //        StayUnfrozen();
-        //    }
-        //}
-
-        //private void StayUnfrozen()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void Withdraw(decimal amount)
         {
-            if (!IsVerified)
-                return; // Or do something else...
-
-            if (IsClosed)
-                return; //// Or do something else...
-
-            //ManageUnfreezing();
-            Freezable = Freezable.Withdraw();
-
-            Balance -= amount; //Withdraw money.
+            State = State.Withdraw(() => { Balance -= amount; });
         }
 
         public void HolderVerfied()
         {
-            IsVerified = true;
+            State = State.HolderVerified();
         }
 
         public void Close()
         {
-            IsClosed = true;
+            State = State.Close();
         }
 
         public void Freezen()
         {
-            if (IsClosed)
-                return; // Account must not be closed
-
-            if (!IsVerified)
-                return; // Account must be verified
-
-            //IsFrozen = true;
-            //ManageUnfreezing = Unfreeze;
-
-            Freezable = Freezable.Freeze();
+            State = State.Freeze();
         }
-
-        //private void Unfreeze()
-        //{
-        //    OnUnfreeze();
-        //    ManageUnfreezing = StayUnfrozen;
-        //}
 
     }
 }

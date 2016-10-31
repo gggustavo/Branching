@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BranchingDemo
 {
-    class Active : IFreezable
+    class Active : IAccountState
     {
         private Action OnUnfreeze { get; }
 
@@ -15,10 +15,22 @@ namespace BranchingDemo
             OnUnfreeze = onUnfreeze;
         }
 
-        public IFreezable Deposit() => this;
+        public IAccountState Deposit(Action addToBalance)
+        {
+            addToBalance();
+            return this;
+        }
 
-        public IFreezable Freeze() => this;
+        public IAccountState Withdraw(Action subtractFromBalance)
+        {
+            subtractFromBalance();
+            return this;
+        }
 
-        public IFreezable Withdraw() => new Frozen(OnUnfreeze);
+        public IAccountState Freeze() => new Frozen(OnUnfreeze);
+
+        public IAccountState HolderVerified() => this;
+
+        public IAccountState Close() => new Closed();
     }
 }
