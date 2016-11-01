@@ -1,3 +1,3 @@
 # Account 
 
-[![Capture.png](https://s18.postimg.org/aem093v5l/Capture.png)](https://postimg.org/image/mghe394dx/)
+[![Capture.png](https://s16.postimg.org/h073k94v9/Capture.png)](https://postimg.org/image/jua8xp71d/)
