@@ -46,7 +46,7 @@ namespace BranchingDemo
             Balance -= amount; //Withdraw money.
         }
 
-        public void HolderVerfied()
+        public void HolderVerified()
         {
             IsVerified = true;
         }
