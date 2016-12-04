@@ -45,9 +45,13 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Active.cs" />
+    <Compile Include="Algorithm.cs" />
     <Compile Include="Closed.cs" />
+    <Compile Include="ControlDigitAlgorithm.cs" />
+    <Compile Include="ControlDigitAlgorithms.cs" />
     <Compile Include="Frozen.cs" />
     <Compile Include="IAccountState.cs" />
+    <Compile Include="Int64Extensions.cs" />
     <Compile Include="NotVerified.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
