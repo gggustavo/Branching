@@ -10,6 +10,8 @@ namespace BranchingDemo
     {
         static void Main(string[] args)
         {
+            var control = Algorithm.GetControlDigit(12345);
+
         }
     }
 }
