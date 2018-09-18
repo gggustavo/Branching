@@ -1,5 +1,22 @@
 # Account 
 
+Requerimientos
+
+* El dinero puede ser depositado en cualquier momento.
+
+* El dinero se puede retirar solo después de que se haya verificado la identidad del propietario de la cuenta.
+
+* El titular de la cuenta puede cerrar la cuenta en cualquier momento.
+
+* La cuenta cerrada no permite depósitos y retiros.
+
+* La cuenta se congelará si no se usa durante un tiempo.
+
+* La cuenta se descongelará automáticamente al depositar o retirar.
+
+* Descongelar la cuenta desencadena una acción personalizada
+
+
 Requeriments 
 
 * Money can be desposited any time.
@@ -17,4 +34,3 @@ Requeriments
 * Unfreezing the account triggers a custom action
 
 
-[![Capture.png](https://s16.postimg.org/h073k94v9/Capture.png)](https://postimg.org/image/jua8xp71d/)
